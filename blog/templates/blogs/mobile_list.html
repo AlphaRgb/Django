@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Document</title>
+    <script src="/static/js/vue.js"></script>
+    <script src="/static/js/axios.js"></script>
+    <!-- 引入样式 -->
+    <link rel="stylesheet" href="https://unpkg.com/element-ui@2.0.7/lib/theme-chalk/index.css">
+    <!-- 引入组件库 -->
+    <script src="https://unpkg.com/element-ui@2.0.7/lib/index.js"></script>
+</head>
+{% verbatim %}
+<!-- 在这里面的{},django都不会渲染了 -->
+
+<body>
+    这是手机端页面
+    <div id="app">
+        {{ message }}
+        <ul>
+        	<li v-for="book in books">
+        		<p><span>{{ book.name }}</span></p>
+        		<p><span>{{ book.author }}</span></p>
+        		<p><span>{{ book.category }}</span></p>
+        	</li>
+        </ul>
+        <el-button >按钮</el-button>	
+    </div>
+    <script>
+	    var app = new Vue({ 
+	    	el: '#app', 
+	    	data: { 
+		    		message: 'hello world',
+		    		books:[]
+	    		},
+	    	methods:{
+	    		getData:function(){
+	    			axios.get('http://127.0.0.1:8000/api/books/')
+	    				.then(res => {
+	    					this.books = res.data.results
+	    				}
+	    				).catch(e => {
+	    					console.log(e)
+	    				})
+	    		}
+	    	},
+	    	created:function(){
+	    		this.getData()
+	    	} 
+	    })
+    </script>
+</body>
+{% endverbatim %}
+
+</html>
