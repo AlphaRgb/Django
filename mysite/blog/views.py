@@ -6,14 +6,14 @@ from .models import Post
 
 def post_list(request):
     posts = Post.published.all()
-    return render(request, 'index.html', {'posts': posts})
+    return render(request, 'blog/post/list.html', {'posts': posts})
 
 
 def post_detail(request, year, month, day, post):
     post = get_object_or_404(Post, slug=post, status='published', publish__year=year, publish__month=month,
                              publish__day=day)
     print(post)
-    return render(request, 'detail.html')
+    return render(request, 'blog/post/detail.html')
 
 from rest_framework.views import APIView,status
 from rest_framework.response import Response
